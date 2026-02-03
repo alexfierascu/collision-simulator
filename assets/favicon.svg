@@ -4,6 +4,10 @@
       <stop offset="0%" stop-color="#1a1a2e"/>
       <stop offset="100%" stop-color="#0a0a0f"/>
     </radialGradient>
+    <radialGradient id="bg-light" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e8e8f0"/>
+      <stop offset="100%" stop-color="#d0d0dc"/>
+    </radialGradient>
     <radialGradient id="g1" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#00fff2" stop-opacity="0.8"/>
       <stop offset="100%" stop-color="#00fff2" stop-opacity="0"/>
@@ -13,7 +17,13 @@
       <stop offset="100%" stop-color="#ff00aa" stop-opacity="0"/>
     </radialGradient>
   </defs>
-  <circle cx="32" cy="32" r="31" fill="url(#bg)" stroke="url(#g1)" stroke-width="1.5"/>
+  <style>
+    .bg { fill: url(#bg); }
+    @media (prefers-color-scheme: light) {
+      .bg { fill: url(#bg-light); }
+    }
+  </style>
+  <circle cx="32" cy="32" r="31" class="bg" stroke="url(#g1)" stroke-width="1.5"/>
   <circle cx="22" cy="26" r="10" fill="url(#g1)" opacity="0.4"/>
   <circle cx="22" cy="26" r="5" fill="#00fff2"/>
   <circle cx="20" cy="24" r="1.2" fill="rgba(255,255,255,0.6)"/>

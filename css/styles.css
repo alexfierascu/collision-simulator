@@ -922,6 +922,10 @@ body:fullscreen, body:-webkit-full-screen {
   transform: translateX(-50%) translateY(0);
 }
 
+.toast.error {
+  background: var(--accent-magenta);
+}
+
 /* === Tooltip === */
 .ball-tooltip {
   position: fixed;
@@ -1382,4 +1386,196 @@ body:fullscreen, body:-webkit-full-screen {
   min-width: auto;
   padding: 0.4rem 0.7rem;
   line-height: 1;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    justify-content: flex-start;
+  }
+
+  .wizard h1 {
+    font-size: 1.8rem;
+    letter-spacing: 0.15em;
+  }
+
+  .wizard-form {
+    min-width: 0;
+    width: 90vw;
+    max-width: 400px;
+  }
+
+  .container {
+    gap: 0.8rem;
+    padding: 0.8rem;
+    width: 100%;
+  }
+
+  .container h1 {
+    font-size: 1.3rem;
+    letter-spacing: 0.1em;
+  }
+
+  .canvas-wrapper {
+    max-height: 55vh;
+    max-width: 85vw;
+  }
+
+  .stats {
+    gap: 0.8rem;
+  }
+
+  .stat-value {
+    font-size: 1.2rem;
+  }
+
+  .controls {
+    gap: 0.4rem;
+  }
+
+  .controls-secondary {
+    gap: 0.4rem;
+  }
+
+  .audio-panel {
+    top: auto;
+    bottom: 0.5rem;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .wt-card {
+    width: 280px;
+  }
+
+  .achievement-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .wizard {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .wizard h1 {
+    font-size: 1.3rem;
+    letter-spacing: 0.1em;
+  }
+
+  .wizard-form {
+    padding: 1.2rem;
+    gap: 1rem;
+  }
+
+  .presets {
+    flex-wrap: wrap;
+  }
+
+  .preset-btn {
+    min-width: calc(50% - 0.25rem);
+  }
+
+  .container {
+    gap: 0.6rem;
+    padding: 0.5rem;
+  }
+
+  .container h1 {
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+  }
+
+  .canvas-wrapper {
+    max-height: 45vh;
+    max-width: 95vw;
+  }
+
+  .stats {
+    gap: 0.5rem 1rem;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+  }
+
+  .stat-value {
+    font-size: 1rem;
+  }
+
+  button {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.65rem;
+  }
+
+  .controls {
+    gap: 0.3rem;
+  }
+
+  .controls-secondary {
+    gap: 0.3rem;
+  }
+
+  .controls-secondary select {
+    font-size: 0.6rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .keyboard-hints {
+    display: none;
+  }
+
+  .audio-panel {
+    gap: 0.3rem;
+    padding: 0.3rem 0.5rem;
+    max-width: 95vw;
+  }
+
+  .audio-panel select {
+    max-width: 100px;
+    font-size: 0.65rem;
+  }
+
+  .volume-slider input[type="range"] {
+    width: 40px;
+  }
+
+  .graph-container {
+    padding: 0.5rem;
+  }
+
+  .modal {
+    padding: 1rem;
+  }
+
+  .modal-buttons button {
+    font-size: 0.6rem;
+    padding: 0.4rem 0.6rem;
+    min-width: 60px;
+  }
+
+  .wt-card {
+    width: calc(100vw - 24px);
+    padding: 14px 16px 12px;
+  }
+
+  .achievement-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 6px;
+  }
+
+  .achievement-card {
+    padding: 8px 4px;
+  }
+
+  .time-control {
+    font-size: 0.6rem;
+  }
+
+  .time-control input[type="range"] {
+    width: 60px;
+  }
 }

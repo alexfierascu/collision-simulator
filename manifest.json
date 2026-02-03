@@ -1,11 +1,15 @@
 {
+  "id": "/",
   "name": "Collision Spawner",
   "short_name": "Collision",
   "description": "Interactive 2D ball collision physics simulator with real-time visualization",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#0a0a0f",
   "theme_color": "#0a0a0f",
+  "categories": ["games", "entertainment", "education"],
   "icons": [
     {
       "src": "assets/icon-192.png",
@@ -22,6 +26,15 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Collision Spawner simulation preview"
     }
   ]
 }

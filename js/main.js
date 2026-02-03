@@ -21,6 +21,9 @@ import { distance } from './utils/math.js';
 import { startWalkthrough, shouldShowWalkthrough, initWalkthroughButton, resumeWalkthroughForSim } from './ui/Walkthrough.js';
 import { initPinchZoom, wasPinchRecent } from './ui/PinchZoom.js';
 import { initFpsCounter } from './ui/FpsCounter.js';
+import { initErrorHandler } from './utils/errorHandler.js';
+
+initErrorHandler();
 
 function findBallAtPoint(x, y) {
   // Search in reverse so topmost (last-drawn) balls get priority
@@ -111,6 +114,8 @@ function setupSimulation() {
   state.canvas.id = 'simulation';
   state.canvas.width = CONFIG.canvasSize;
   state.canvas.height = CONFIG.canvasSize;
+  state.canvas.setAttribute('role', 'img');
+  state.canvas.setAttribute('aria-label', 'Ball collision simulation canvas — click to spawn balls or trigger effects');
   state.canvasWrapper.appendChild(state.canvas);
 
   const pausedOverlay = document.createElement('div');
@@ -172,4 +177,9 @@ loadFromUrl();
 // Auto-launch walkthrough on first visit (wizard page)
 if (shouldShowWalkthrough()) {
   setTimeout(() => startWalkthrough('wizard'), 400);
+}
+
+// Register service worker for offline PWA support
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
 }

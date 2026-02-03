@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collision Spawner</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/wizard.css">
+  <link rel="stylesheet" href="css/simulation.css">
+  <link rel="stylesheet" href="css/audio.css">
+  <link rel="stylesheet" href="css/graph.css">
+  <link rel="stylesheet" href="css/modal.css">
+  <link rel="stylesheet" href="css/toast.css">
+  <link rel="stylesheet" href="css/fullscreen.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/tooltip.css">
+  <link rel="stylesheet" href="css/recording.css">
+  <link rel="stylesheet" href="css/achievements.css">
+  <link rel="stylesheet" href="css/walkthrough.css">
+</head>
+<body>
+  <div class="wizard" id="wizard">
+    <h1>Collision Spawner</h1>
+    <p class="wizard-subtitle">Configure your simulation</p>
+
+    <div class="wizard-form">
+      <div class="input-group">
+        <label>Presets</label>
+        <div class="presets">
+          <button type="button" class="preset-btn" data-preset="chill" title="30 balls, large size, slow spawning - relaxing vibe">🧘 Chill</button>
+          <button type="button" class="preset-btn active" data-preset="normal" title="100 balls, medium settings - balanced experience">⚖️ Normal</button>
+          <button type="button" class="preset-btn" data-preset="chaos" title="200 balls, fast spawning, high speed - pure mayhem">🔥 Chaos</button>
+          <button type="button" class="preset-btn" data-preset="swarm" title="300 tiny balls, medium speed - ant colony vibes">🐝 Swarm</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="maxBalls">Max Balls</label>
+        <div class="input-wrapper">
+          <input type="number" id="maxBalls" value="100" min="10" max="500">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="ballSize">Ball Size</label>
+        <div class="input-wrapper">
+          <input type="number" id="ballSize" value="6" min="3" max="15">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="spawnRate">Spawn Cooldown (ms)</label>
+        <div class="input-wrapper">
+          <input type="number" id="spawnRate" value="200" min="50" max="1000" step="50">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="initialSpeed">Initial Speed</label>
+        <div class="input-wrapper">
+          <input type="number" id="initialSpeed" value="5" min="1" max="15">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="boundaryShape">Boundary Shape</label>
+        <div class="input-wrapper">
+          <select id="boundaryShape">
+            <option value="circle">Circle</option>
+            <option value="rectangle">Rectangle</option>
+            <option value="hexagon">Hexagon</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="button" id="advancedToggle" class="secondary">Advanced Settings ▾</button>
+
+      <div id="advancedSettings" class="advanced-settings" style="display: none;">
+        <div class="input-group">
+          <label for="maxSpeedInput">Max Speed</label>
+          <div class="input-wrapper">
+            <input type="number" id="maxSpeedInput" value="15" min="5" max="50" step="1">
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="minSpeedInput">Min Speed</label>
+          <div class="input-wrapper">
+            <input type="number" id="minSpeedInput" value="2" min="0.5" max="10" step="0.5">
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="repulsionInput">Repulsion Multiplier</label>
+          <div class="input-wrapper">
+            <input type="number" id="repulsionInput" value="5" min="1" max="15" step="1">
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="boundaryBoostInput">Boundary Boost</label>
+          <div class="input-wrapper">
+            <input type="number" id="boundaryBoostInput" value="1.03" min="1.00" max="1.20" step="0.01">
+          </div>
+        </div>
+      </div>
+
+      <div class="save-load-row">
+        <button type="button" id="saveConfigBtn" class="secondary" aria-label="Save current configuration">💾 Save Config</button>
+      </div>
+      <div id="savedConfigsList"></div>
+
+      <button id="startBtn">Start Simulation</button>
+    </div>
+  </div>
+
+  <div id="fpsCounter"></div>
+
+  <div class="container" id="simulation-container" style="display: none;">
+    <h1>Collision Spawner</h1>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-label">Balls</span>
+        <span class="stat-value" id="ballCount">2</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Collisions</span>
+        <span class="stat-value magenta" id="collisionCount">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Avg Speed</span>
+        <span class="stat-value yellow" id="avgSpeed">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Max Speed</span>
+        <span class="stat-value green" id="maxSpeed">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Time</span>
+        <span class="stat-value" id="timeElapsed">0:00</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Coll/sec</span>
+        <span class="stat-value magenta" id="collPerSec">0</span>
+      </div>
+    </div>
+
+    <div class="graph-container" title="Shows collision rate over the last 30 seconds">
+      <div class="graph-title">Collision Rate Over Time</div>
+      <canvas id="graphCanvas" class="graph-canvas" width="300" height="60"></canvas>
+    </div>
+
+    <div class="controls">
+      <button id="pauseBtn" title="Pause or resume the simulation (Space)" aria-label="Pause simulation">⏸ Pause</button>
+      <button id="resetBtn" title="Reset simulation to 2 balls (R)" aria-label="Reset simulation">↻ Reset</button>
+      <button id="rainbowBtn" title="Balls continuously cycle through rainbow colors (1)" aria-label="Toggle rainbow mode">🌈 Rainbow</button>
+      <button id="explosionBtn" class="danger" title="Click inside the circle to push all balls away from that point (2)" aria-label="Toggle explosion mode">💥 Explosion</button>
+      <button id="blackholeBtn" class="danger" title="Click inside the circle to pull all balls toward that point (3)" aria-label="Toggle black hole mode">🕳️ Black Hole</button>
+    </div>
+
+    <div class="controls-secondary">
+      <select id="colorTheme" title="Switch ball color palette (4)">
+        <option value="neon">🎨 Neon</option>
+        <option value="retro">🎨 Retro</option>
+        <option value="monochrome">🎨 Mono</option>
+        <option value="ocean">🎨 Ocean</option>
+        <option value="sunset">🎨 Sunset</option>
+      </select>
+      <button id="themeToggleBtn" class="secondary" title="Toggle dark/light mode (T)" aria-label="Toggle theme">🌙 Theme</button>
+      <button id="recordBtn" class="secondary" title="Record 5s video clip (V)" aria-label="Record video">⏺ Record</button>
+      <button id="screenshotBtn" class="secondary" title="Save current simulation state as PNG image (S)" aria-label="Take screenshot">📷 Screenshot</button>
+      <button id="shareBtn" class="secondary" title="Generate a shareable URL with your current settings" aria-label="Share simulation">🔗 Share</button>
+      <button id="fullscreenBtn" class="secondary" title="Toggle fullscreen mode (F)" aria-label="Toggle fullscreen">⛶ Fullscreen</button>
+      <button id="achievementsBtn" class="secondary" title="View achievements (G)" aria-label="View achievements">🏆 Achievements</button>
+      <button id="walkthroughBtn" class="secondary" title="Show guided tour (?)" aria-label="Show walkthrough">? Tour</button>
+      <button id="backBtn" class="secondary" title="Return to settings wizard" aria-label="Back to settings">← Back</button>
+    </div>
+
+    <div class="time-control">
+      <span>SPEED</span>
+      <input type="range" id="timeScale" min="0.25" max="3" step="0.25" value="1" title="Simulation speed ([ / ])">
+      <span id="timeScaleValue">1x</span>
+    </div>
+
+    <div id="recordingIndicator"></div>
+
+    <div class="audio-panel" id="audioPanel">
+      <button id="musicBtn" title="Toggle music (M)" aria-label="Toggle music">🔇</button>
+      <select id="musicStyle" title="Choose music style">
+        <optgroup label="Ambient">
+          <option value="deepSpace">🌌 Deep Space</option>
+          <option value="cosmicDrift">🪐 Cosmic Drift</option>
+          <option value="nebulaWaves">✨ Nebula Waves</option>
+          <option value="blackHoleEcho">🕳️ Black Hole Echo</option>
+          <option value="starPulse">⭐ Star Pulse</option>
+        </optgroup>
+        <optgroup label="Energetic">
+          <option value="solarFlare">☀️ Solar Flare</option>
+          <option value="quantumRush">⚡ Quantum Rush</option>
+          <option value="supernovaBreak">💥 Supernova Break</option>
+          <option value="gridRunner">🏁 Grid Runner</option>
+          <option value="neonCircuit">💡 Neon Circuit</option>
+          <option value="dataStream">📡 Data Stream</option>
+          <option value="ionStorm">🌩️ Ion Storm</option>
+        </optgroup>
+      </select>
+      <div class="volume-slider">
+        <input type="range" id="volumeSlider" min="0" max="100" value="30" title="Adjust music volume">
+      </div>
+    </div>
+
+    <div class="mode-indicator" id="modeIndicator" aria-live="polite"></div>
+    <div class="keyboard-hints">Space: Pause | R: Reset | M: Music | S: Screenshot | 1: Rainbow | 2: Explosion | 3: Black Hole | 4: Theme | T: Dark/Light | V: Record | F: Fullscreen | P: FPS | [/]: Speed | G: Achievements | Esc: Deselect | ?: Tour</div>
+  </div>
+
+  <!-- Share Modal -->
+  <div class="modal-overlay" id="shareModal" role="dialog" aria-modal="true" aria-label="Share simulation">
+    <div class="modal">
+      <h2>🔗 Share Your Simulation</h2>
+      <div class="share-preview" id="sharePreview">
+        <canvas id="shareCanvas" width="400" height="300"></canvas>
+      </div>
+      <div class="share-stats" id="shareStats"></div>
+      <div class="share-section">
+        <label>Share URL</label>
+        <input type="text" class="modal-input" id="shareUrl" readonly>
+      </div>
+      <div class="modal-buttons">
+        <button id="downloadShareBtn" title="Download share image with stats">📥 Save Image</button>
+        <button id="copyUrlBtn" title="Copy URL to clipboard">📋 Copy URL</button>
+        <button id="copyAllBtn" title="Copy URL and stats as text">📝 Copy All</button>
+        <button id="closeModalBtn" class="secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

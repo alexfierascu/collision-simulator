@@ -1,0 +1,101 @@
+.audio-panel {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.7rem;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 100;
+  transition: opacity 0.3s;
+}
+
+.audio-panel:hover {
+  border-color: rgba(0, 255, 242, 0.3);
+}
+
+.audio-panel button {
+  padding: 0.3rem 0.5rem;
+  font-size: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  min-width: 2rem;
+  text-align: center;
+  line-height: 1;
+}
+
+.audio-panel button.active {
+  border-color: var(--accent-cyan);
+  background: rgba(0, 255, 242, 0.2);
+}
+
+.audio-panel select {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  padding: 0.3rem 0.4rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+  max-width: 140px;
+}
+
+.audio-panel select:hover,
+.audio-panel select:focus {
+  border-color: var(--accent-cyan);
+}
+
+.audio-panel select option,
+.audio-panel select optgroup {
+  background: #0a0a0f;
+  color: var(--text-primary);
+}
+
+.audio-panel select optgroup {
+  font-weight: 700;
+  font-size: 0.7rem;
+  color: var(--accent-cyan);
+}
+
+.volume-slider {
+  display: flex;
+  align-items: center;
+}
+
+.volume-slider input[type="range"] {
+  width: 60px;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  outline: none;
+}
+
+.volume-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  background: var(--accent-cyan);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--accent-cyan);
+}
+
+.volume-slider input[type="range"]::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background: var(--accent-cyan);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 8px var(--accent-cyan);
+}
